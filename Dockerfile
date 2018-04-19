@@ -66,7 +66,6 @@ RUN \
   cd ~/build && \
   git clone https://gitlab.labs.nic.cz/turris/foris-controller.git && \
   cd foris-controller && \
-  git checkout wan-improvements && \
   pip install . && \
   git clone https://gitlab.labs.nic.cz/turris/foris-controller-testtools.git && \
   cd foris-controller-testtools && \
