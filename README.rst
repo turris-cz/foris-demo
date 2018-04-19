@@ -26,7 +26,7 @@ Run demo image
 
 .. code-block:: shell
 
-    docker run  -p 8080:80 -i --rm -t registry.labs.nic.cz/turris/foris-demo
+    docker run  -p 8080:80 -p 9080:9080 -i --rm -t registry.labs.nic.cz/turris/foris-demo
 
 Test
 ----

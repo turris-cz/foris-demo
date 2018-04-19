@@ -55,24 +55,35 @@ RUN \
 RUN \
   pip install bottle jsonschema
 
-# Install controller components
+# Install required components
 RUN \
   mkdir -p ~/build && \
   cd ~/build && \
   git clone https://gitlab.labs.nic.cz/turris/foris-schema.git && \
   cd foris-schema && \
   pip install . && \
-  mkdir -p ~/build && \
-  cd ~/build && \
+  cd .. && \
   git clone https://gitlab.labs.nic.cz/turris/foris-controller.git && \
   cd foris-controller && \
   pip install . && \
+  cd .. && \
   git clone https://gitlab.labs.nic.cz/turris/foris-controller-testtools.git && \
   cd foris-controller-testtools && \
   pip install . && \
+  cd .. && \
   git clone https://gitlab.labs.nic.cz/turris/foris-client.git && \
   cd foris-client && \
-  pip install .
+  pip install . && \
+  cd .. && \
+  git clone https://github.com/shenek/python-websocket-server.git && \
+  cd python-websocket-server && \
+  git checkout to_upstream2 && \
+  pip install . && \
+  cd .. && \
+  git clone https://gitlab.labs.nic.cz/turris/foris-ws.git && \
+  cd foris-ws && \
+  pip install . && \
+  cd ..
 
 # Make script
 RUN \
@@ -82,8 +93,9 @@ RUN \
   echo "rpcd &" >> /usr/local/bin/start && \
   echo "sleep 2" >> /usr/local/bin/start && \
   echo "foris-controller --backend mock ubus &" >> /usr/local/bin/start && \
+  echo "foris-ws -a none --port 9080 --host 0.0.0.0 ubus &" >> /usr/local/bin/start && \
   echo "sleep 2" >> /usr/local/bin/start && \
-  echo "python -m foris -H 0.0.0.0 -p 80 -S" >> /usr/local/bin/start && \
+  echo "python -m foris -H 0.0.0.0 -p 80 -S --ws-port 9080 --ws-path /" >> /usr/local/bin/start && \
   chmod 777 /usr/local/bin/start
 
 
