@@ -85,9 +85,27 @@ RUN \
   pip install . && \
   cd ..
 
+# Install plugins
+RUN \
+  mkdir -p /usr/share/foris/plugins && \
+  mkdir -p ~/build && \
+  cd ~/build && \
+  git clone https://gitlab.labs.nic.cz/turris/foris-controller-diagnostics-module.git && \
+  cd foris-controller-diagnostics-module && \
+  pip install . && \
+  cd .. && \
+  git clone https://gitlab.labs.nic.cz/turris/foris-diagnostics-plugin.git && \
+  cd foris-diagnostics-plugin/src/static/ && \
+  compass compile -r breakpoint -s compressed -e production --no-line-comments --css-dir css --sass-dir sass --images-dir img --javascripts-dir js --http-path "/"  && \
+  cd ../.. && \
+  ~/build/foris/tools/compilemessages.sh src && \
+  cd .. && \
+  cp -r foris-diagnostics-plugin/src /usr/share/foris/plugins/diagnostics
+
 # Make script
 RUN \
   echo "#!/bin/sh" >> /usr/local/bin/start && \
+  echo "rm -rf /root/.cache" >> /usr/local/bin/start && \
   echo "LD_LIBRARY_PATH=:/usr/local/lib" >> /usr/local/bin/start && \
   echo "ubusd &" >> /usr/local/bin/start && \
   echo "rpcd &" >> /usr/local/bin/start && \
