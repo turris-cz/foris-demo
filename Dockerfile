@@ -90,31 +90,33 @@ RUN \
   mkdir -p /usr/share/foris/plugins && \
   mkdir -p ~/build && \
   cd ~/build && \
-  git clone https://gitlab.labs.nic.cz/turris/foris-controller-diagnostics-module.git && \
-  cd foris-controller-diagnostics-module && \
+  for name in diagnostics openvpn netmetr ssbackups ; do \
+  git clone https://gitlab.labs.nic.cz/turris/foris-controller-${name}-module.git && \
+  cd foris-controller-${name}-module && \
   pip install . && \
   cd .. && \
-  git clone https://gitlab.labs.nic.cz/turris/foris-diagnostics-plugin.git && \
-  cd foris-diagnostics-plugin/src/static/ && \
+  git clone https://gitlab.labs.nic.cz/turris/foris-${name}-plugin.git && \
+  cd foris-${name}-plugin/src/static/ && \
   compass compile -r breakpoint -s compressed -e production --no-line-comments --css-dir css --sass-dir sass --images-dir img --javascripts-dir js --http-path "/"  && \
   cd ../.. && \
   ~/build/foris/tools/compilemessages.sh src && \
   cd .. && \
-  cp -r foris-diagnostics-plugin/src /usr/share/foris/plugins/diagnostics
+  cp -r foris-${name}-plugin/src /usr/share/foris/plugins/${name} ; \
+  done
 
 # Make script
 RUN \
   echo "#!/bin/sh" >> /usr/local/bin/start && \
-  echo "rm -rf /root/.cache" >> /usr/local/bin/start && \
-  echo "LD_LIBRARY_PATH=:/usr/local/lib" >> /usr/local/bin/start && \
+  echo "export LD_LIBRARY_PATH=:/usr/local/lib" >> /usr/local/bin/start && \
   echo "ubusd &" >> /usr/local/bin/start && \
   echo "rpcd &" >> /usr/local/bin/start && \
-  echo "sleep 2" >> /usr/local/bin/start && \
+  echo "sleep 1" >> /usr/local/bin/start && \
   echo "foris-controller --backend mock ubus &" >> /usr/local/bin/start && \
+  echo "sleep 1" >> /usr/local/bin/start && \
   echo "foris-ws -a none --port 9080 --host 0.0.0.0 ubus &" >> /usr/local/bin/start && \
-  echo "sleep 2" >> /usr/local/bin/start && \
+  echo "sleep 1" >> /usr/local/bin/start && \
   echo "python -m foris -H 0.0.0.0 -p 80 -S --ws-port 9080 --ws-path /" >> /usr/local/bin/start && \
   chmod 777 /usr/local/bin/start
 
 
-CMD [ "bash", "/usr/local/bin/start" ]
+CMD [ "/usr/local/bin/start" ]
