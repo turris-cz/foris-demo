@@ -47,9 +47,7 @@ RUN \
   git checkout dream-of-denucification && \
   make && \
   pip install . && \
-  pip install -r foris/requirements.txt && \
-  true && \
-  true
+  pip install -r foris/requirements.txt
 
 # Install pip requirements
 RUN \
@@ -65,6 +63,7 @@ RUN \
   cd .. && \
   git clone https://gitlab.labs.nic.cz/turris/foris-controller.git && \
   cd foris-controller && \
+  git checkout guide && \
   pip install . && \
   cd .. && \
   git clone https://gitlab.labs.nic.cz/turris/foris-controller-testtools.git && \
