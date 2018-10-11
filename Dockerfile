@@ -1,4 +1,4 @@
-FROM registry.labs.nic.cz/turris/foris-ci:latest
+FROM registry.labs.nic.cz/turris/foris-ci/python3:latest
 
 ENV HOME=/root
 ENV LD_LIBRARY_PATH=:/usr/local/lib
@@ -26,29 +26,6 @@ RUN \
   cmake CMakeLists.txt && \
   make install
 
-# Install python reqs
-RUN \
-  echo "# Installing other packages" && \
-  apt-get update && \
-  apt-get -y upgrade && \
-  apt-get -y install --no-install-recommends \
-    ruby-compass slimit gettext
-
-# Installs for compass
-RUN \
-  gem install breakpoint
-
-# Install foris
-RUN \
-  mkdir -p ~/build && \
-  cd ~/build && \
-  git clone https://gitlab.labs.nic.cz/turris/foris.git && \
-  cd foris && \
-  git checkout dream-of-denucification && \
-  make && \
-  pip install . && \
-  pip install -r foris/requirements.txt
-
 # Install pip requirements
 RUN \
   pip install bottle jsonschema
@@ -63,7 +40,6 @@ RUN \
   cd .. && \
   git clone https://gitlab.labs.nic.cz/turris/foris-controller.git && \
   cd foris-controller && \
-  git checkout guide && \
   pip install . && \
   cd .. && \
   git clone https://gitlab.labs.nic.cz/turris/foris-controller-testtools.git && \
@@ -82,11 +58,37 @@ RUN \
   git clone https://gitlab.labs.nic.cz/turris/foris-ws.git && \
   cd foris-ws && \
   pip install . && \
+  cd .. && \
+  git clone https://gitlab.labs.nic.cz/turris/foris-plugins-distutils.git && \
+  cd foris-plugins-distutils && \
+  pip install . && \
   cd ..
+
+# Install python reqs
+RUN \
+  echo "# Installing other packages" && \
+  apt-get update && \
+  apt-get -y upgrade && \
+  apt-get -y install --no-install-recommends \
+    ruby-compass slimit gettext
+
+# Installs for compass
+RUN \
+  gem install breakpoint
+
+# Install foris
+RUN \
+  mkdir -p ~/build && \
+  cd ~/build && \
+  git clone https://gitlab.labs.nic.cz/turris/foris.git && \
+  cd foris && \
+  git checkout python3 && \
+  make && \
+  pip install . --upgrade && \
+  pip install -r foris/requirements.txt
 
 # Install plugins
 RUN \
-  mkdir -p /usr/share/foris/plugins && \
   mkdir -p ~/build && \
   cd ~/build && \
   for name in diagnostics openvpn netmetr ssbackups ; do \
@@ -95,12 +97,9 @@ RUN \
   pip install . && \
   cd .. && \
   git clone https://gitlab.labs.nic.cz/turris/foris-${name}-plugin.git && \
-  cd foris-${name}-plugin/src/static/ && \
-  compass compile -r breakpoint -s compressed -e production --no-line-comments --css-dir css --sass-dir sass --images-dir img --javascripts-dir js --http-path "/"  && \
-  cd ../.. && \
-  ~/build/foris/tools/compilemessages.sh src && \
-  cd .. && \
-  cp -r foris-${name}-plugin/src /usr/share/foris/plugins/${name} ; \
+  cd foris-${name}-plugin/ && \
+  git checkout new_plugin_format && \
+  pip install . ; \
   done
 
 # Make script

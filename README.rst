@@ -7,7 +7,7 @@ Build testing image
 .. code-block:: shell
 
     git clone git@gitlab.labs.nic.cz:turris/foris-ci.git
-    cd foris-ci
+    cd foris-ci/python3
     docker build -t registry.labs.nic.cz/turris/foris-ci .
     cd ..
 
