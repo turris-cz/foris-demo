@@ -34,6 +34,11 @@ RUN \
 RUN \
   mkdir -p ~/build && \
   cd ~/build && \
+  git clone https://gitlab.labs.nic.cz/turris/turrishw.git && \
+  cd turrishw && \
+  pip install . && \
+  cd .. && \
+  cd ~/build && \
   git clone https://gitlab.labs.nic.cz/turris/foris-schema.git && \
   cd foris-schema && \
   pip install . && \
@@ -82,7 +87,6 @@ RUN \
   cd ~/build && \
   git clone https://gitlab.labs.nic.cz/turris/foris.git && \
   cd foris && \
-  git checkout python3 && \
   make && \
   pip install . --upgrade && \
   pip install -r foris/requirements.txt
@@ -98,7 +102,6 @@ RUN \
   cd .. && \
   git clone https://gitlab.labs.nic.cz/turris/foris-${name}-plugin.git && \
   cd foris-${name}-plugin/ && \
-  git checkout new_plugin_format && \
   pip install . ; \
   done
 
