@@ -110,6 +110,7 @@ RUN \
   echo "#!/bin/sh" >> /usr/local/bin/start && \
   echo "export LD_LIBRARY_PATH=:/usr/local/lib" >> /usr/local/bin/start && \
   echo "ubusd &" >> /usr/local/bin/start && \
+  echo "sleep 1" >> /usr/local/bin/start && \
   echo "rpcd &" >> /usr/local/bin/start && \
   echo "sleep 1" >> /usr/local/bin/start && \
   echo "foris-controller --backend mock ubus &" >> /usr/local/bin/start && \
