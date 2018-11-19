@@ -72,7 +72,7 @@ RUN \
 RUN \
   mkdir -p ~/build && \
   cd ~/build && \
-  for name in diagnostics openvpn netmetr ssbackups ; do \
+  for name in diagnostics openvpn netmetr ssbackups data_collect ; do \
   git clone https://gitlab.labs.nic.cz/turris/foris-controller-${name}-module.git && \
   cd foris-controller-${name}-module && \
   pip install . && \
