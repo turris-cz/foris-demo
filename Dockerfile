@@ -3,29 +3,6 @@ FROM registry.labs.nic.cz/turris/foris-ci/python3:latest
 ENV HOME=/root
 ENV LD_LIBRARY_PATH=:/usr/local/lib
 
-# Compile iwinfo
-RUN \
-  mkdir -p ~/build && \
-  cd ~/build && \
-  rm -rf rpcd && \
-  git clone git://git.openwrt.org/project/iwinfo.git && \
-  cd iwinfo && \
-  ln -s /usr/lib/x86_64-linux-gnu/liblua5.1.so liblua.so && \
-  sed -i 's/..CC....IWINFO_LDFLAGS/\$(LD) \$(IWINFO_LDFLAGS/' Makefile && \
-  CFLAGS="-I/usr/include/lua5.1/" LD=ld FPIC="-fPIC" LDFLAGS="-lc" make && \
-  cp -r include/* /usr/local/include/ && \
-  cp libiwinfo.so /usr/local/lib/
-
-# Compile rpcd
-RUN \
-  mkdir -p ~/build && \
-  cd ~/build && \
-  rm -rf rpcd && \
-  git clone git://git.openwrt.org/project/rpcd.git && \
-  cd rpcd && \
-  cmake CMakeLists.txt && \
-  make install
-
 # Install pip requirements
 RUN \
   pip install bottle jsonschema
