@@ -16,9 +16,9 @@ Build demo image
 
 .. code-block:: shell
 
-    git clone git@gitlab.labs.nic.cz:turris/foris-demo.git
+    git clone git@gitlab.labs.nic.cz:turris/foris/foris-demo.git
     cd foris-demo
-    docker build -t registry.labs.nic.cz/turris/foris-demo .
+    docker build -t registry.labs.nic.cz/turris/foris/foris-demo .
     cd ..
 
 Run demo image
@@ -26,7 +26,7 @@ Run demo image
 
 .. code-block:: shell
 
-    docker run  -p 8080:80 -p 9080:9080 -i --rm -t registry.labs.nic.cz/turris/foris-demo
+    docker run  -p 8080:80 -p 9080:9080 -i --rm -t registry.labs.nic.cz/turris/foris/foris-demo
 
 Test
 ----
