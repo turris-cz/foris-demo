@@ -11,24 +11,24 @@ RUN \
 RUN \
   mkdir -p ~/build && \
   cd ~/build && \
-  git clone https://gitlab.labs.nic.cz/turris/turrishw.git && \
+  git clone https://gitlab.nic.cz/turris/turrishw.git && \
   cd turrishw && \
   pip install . && \
   cd .. && \
   cd ~/build && \
-  git clone https://gitlab.labs.nic.cz/turris/foris-controller/foris-schema.git && \
+  git clone https://gitlab.nic.cz/turris/foris-controller/foris-schema.git && \
   cd foris-schema && \
   pip install . && \
   cd .. && \
-  git clone https://gitlab.labs.nic.cz/turris/foris-controller/foris-controller.git && \
+  git clone https://gitlab.nic.cz/turris/foris-controller/foris-controller.git && \
   cd foris-controller && \
   pip install . && \
   cd .. && \
-  git clone https://gitlab.labs.nic.cz/turris/foris-controller/foris-controller-testtools.git && \
+  git clone https://gitlab.nic.cz/turris/foris-controller/foris-controller-testtools.git && \
   cd foris-controller-testtools && \
   pip install . && \
   cd .. && \
-  git clone https://gitlab.labs.nic.cz/turris/foris-controller/foris-client.git && \
+  git clone https://gitlab.nic.cz/turris/foris-controller/foris-client.git && \
   cd foris-client && \
   pip install . && \
   cd .. && \
@@ -37,11 +37,11 @@ RUN \
   git checkout to_upstream2 && \
   pip install . && \
   cd .. && \
-  git clone https://gitlab.labs.nic.cz/turris/foris-controller/foris-ws.git && \
+  git clone https://gitlab.nic.cz/turris/foris-controller/foris-ws.git && \
   cd foris-ws && \
   pip install . && \
   cd .. && \
-  git clone https://gitlab.labs.nic.cz/turris/foris/foris-plugins-distutils.git && \
+  git clone https://gitlab.nic.cz/turris/foris/foris-plugins-distutils.git && \
   cd foris-plugins-distutils && \
   pip install . && \
   cd ..
@@ -62,7 +62,7 @@ RUN \
 RUN \
   mkdir -p ~/build && \
   cd ~/build && \
-  git clone https://gitlab.labs.nic.cz/turris/foris/foris.git && \
+  git clone https://gitlab.nic.cz/turris/foris/foris.git && \
   cd foris && \
   make && \
   pip install . --upgrade && \
@@ -73,11 +73,11 @@ RUN \
   mkdir -p ~/build && \
   cd ~/build && \
   for name in diagnostics openvpn netmetr ssbackups data_collect ; do \
-  git clone https://gitlab.labs.nic.cz/turris/foris-controller/foris-controller-${name}-module.git && \
+  git clone https://gitlab.nic.cz/turris/foris-controller/foris-controller-${name}-module.git && \
   cd foris-controller-${name}-module && \
   pip install . && \
   cd .. && \
-  git clone https://gitlab.labs.nic.cz/turris/foris/foris-${name}-plugin.git && \
+  git clone https://gitlab.nic.cz/turris/foris/foris-${name}-plugin.git && \
   cd foris-${name}-plugin/ && \
   pip install . ; \
   done
